@@ -1,0 +1,327 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<edmx:Edmx Version="3.0" xmlns:edmx="http://schemas.microsoft.com/ado/2009/11/edmx">
+  <!-- EF Runtime content -->
+  <edmx:Runtime>
+    <!-- SSDL content -->
+    <edmx:StorageModels>
+      <Schema Namespace="App_EnterprisesModel.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+        <EntityType Name="enterprise_type">
+          <Key>
+            <PropertyRef Name="id" />
+          </Key>
+          <Property Name="id" Type="int" Nullable="false" />
+          <Property Name="enterprise_type_name" Type="nchar" MaxLength="100" />
+        </EntityType>
+        <EntityType Name="enterprises">
+          <Key>
+            <PropertyRef Name="id" />
+          </Key>
+          <Property Name="id" Type="int" Nullable="false" />
+          <Property Name="enterprise_name" Type="nchar" MaxLength="50" />
+          <Property Name="description" Type="nchar" MaxLength="500" />
+          <Property Name="email_enterprise" Type="nchar" MaxLength="50" />
+          <Property Name="facebook" Type="nchar" MaxLength="50" />
+          <Property Name="twitter" Type="nchar" MaxLength="50" />
+          <Property Name="linkedin" Type="nchar" MaxLength="50" />
+          <Property Name="phone" Type="nchar" MaxLength="50" />
+          <Property Name="own_enterprise" Type="nchar" MaxLength="50" />
+          <Property Name="photo" Type="nchar" MaxLength="50" />
+          <Property Name="value" Type="nchar" MaxLength="50" />
+          <Property Name="shares" Type="float" />
+          <Property Name="share_price" Type="float" />
+          <Property Name="own_shares" Type="int" />
+          <Property Name="city" Type="nchar" MaxLength="50" />
+          <Property Name="country" Type="nchar" MaxLength="50" />
+          <Property Name="enterprise_type_id" Type="int" />
+        </EntityType>
+        <EntityType Name="investor">
+          <Key>
+            <PropertyRef Name="id" />
+          </Key>
+          <Property Name="id" Type="int" Nullable="false" />
+          <Property Name="investor_name" Type="nchar" MaxLength="100" />
+          <Property Name="email" Type="nchar" MaxLength="100" />
+          <Property Name="city" Type="nchar" MaxLength="100" />
+          <Property Name="country" Type="nchar" MaxLength="100" />
+          <Property Name="balance" Type="nchar" MaxLength="100" />
+          <Property Name="photo" Type="nchar" MaxLength="100" />
+          <Property Name="portifolio_id" Type="int" />
+          <Property Name="portifolio_value" Type="int" />
+          <Property Name="first_acess" Type="tinyint" />
+          <Property Name="super_angel" Type="tinyint" />
+        </EntityType>
+        <!--Errors Found During Generation:
+warning 6002: The table/view 'App_Enterprises.dbo.portfolio' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.-->
+        <EntityType Name="portfolio">
+          <Key>
+            <PropertyRef Name="id" />
+          </Key>
+          <Property Name="id" Type="int" Nullable="false" />
+          <Property Name="enterprise_id" Type="int" />
+          <Property Name="investor_id" Type="int" />
+        </EntityType>
+        <Association Name="FK__Empresas__enterp__4F7CD00D">
+          <End Role="enterprise_type" Type="Self.enterprise_type" Multiplicity="0..1" />
+          <End Role="enterprises" Type="Self.enterprises" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="enterprise_type">
+              <PropertyRef Name="id" />
+            </Principal>
+            <Dependent Role="enterprises">
+              <PropertyRef Name="enterprise_type_id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__portfolio__enter__5441852A">
+          <End Role="enterprises" Type="Self.enterprises" Multiplicity="0..1" />
+          <End Role="portfolio" Type="Self.portfolio" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="enterprises">
+              <PropertyRef Name="id" />
+            </Principal>
+            <Dependent Role="portfolio">
+              <PropertyRef Name="enterprise_id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__portfolio__inves__5535A963">
+          <End Role="investor" Type="Self.investor" Multiplicity="0..1" />
+          <End Role="portfolio" Type="Self.portfolio" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="investor">
+              <PropertyRef Name="id" />
+            </Principal>
+            <Dependent Role="portfolio">
+              <PropertyRef Name="investor_id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityContainer Name="App_EnterprisesModelStoreContainer">
+          <EntitySet Name="enterprise_type" EntityType="Self.enterprise_type" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="enterprises" EntityType="Self.enterprises" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="investor" EntityType="Self.investor" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="portfolio" EntityType="Self.portfolio" store:Type="Tables" store:Schema="dbo">
+            <DefiningQuery>SELECT 
+    [portfolio].[id] AS [id], 
+    [portfolio].[enterprise_id] AS [enterprise_id], 
+    [portfolio].[investor_id] AS [investor_id]
+    FROM [dbo].[portfolio] AS [portfolio]</DefiningQuery>
+          </EntitySet>
+          <AssociationSet Name="FK__Empresas__enterp__4F7CD00D" Association="Self.FK__Empresas__enterp__4F7CD00D">
+            <End Role="enterprise_type" EntitySet="enterprise_type" />
+            <End Role="enterprises" EntitySet="enterprises" />
+          </AssociationSet>
+          <AssociationSet Name="FK__portfolio__enter__5441852A" Association="Self.FK__portfolio__enter__5441852A">
+            <End Role="enterprises" EntitySet="enterprises" />
+            <End Role="portfolio" EntitySet="portfolio" />
+          </AssociationSet>
+          <AssociationSet Name="FK__portfolio__inves__5535A963" Association="Self.FK__portfolio__inves__5535A963">
+            <End Role="investor" EntitySet="investor" />
+            <End Role="portfolio" EntitySet="portfolio" />
+          </AssociationSet>
+        </EntityContainer>
+      </Schema>
+    </edmx:StorageModels>
+    <!-- CSDL content -->
+    <edmx:ConceptualModels>
+      <Schema Namespace="App_EnterprisesModel" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
+        <EntityType Name="enterprise_type">
+          <Key>
+            <PropertyRef Name="id" />
+          </Key>
+          <Property Name="id" Type="Int32" Nullable="false" />
+          <Property Name="enterprise_type_name" Type="String" MaxLength="100" FixedLength="true" Unicode="true" />
+          <NavigationProperty Name="enterprises" Relationship="Self.FK__Empresas__enterp__4F7CD00D" FromRole="enterprise_type" ToRole="enterprises" />
+        </EntityType>
+        <EntityType Name="enterprises">
+          <Key>
+            <PropertyRef Name="id" />
+          </Key>
+          <Property Name="id" Type="Int32" Nullable="false" />
+          <Property Name="enterprise_name" Type="String" MaxLength="50" FixedLength="true" Unicode="true" />
+          <Property Name="description" Type="String" MaxLength="500" FixedLength="true" Unicode="true" />
+          <Property Name="email_enterprise" Type="String" MaxLength="50" FixedLength="true" Unicode="true" />
+          <Property Name="facebook" Type="String" MaxLength="50" FixedLength="true" Unicode="true" />
+          <Property Name="twitter" Type="String" MaxLength="50" FixedLength="true" Unicode="true" />
+          <Property Name="linkedin" Type="String" MaxLength="50" FixedLength="true" Unicode="true" />
+          <Property Name="phone" Type="String" MaxLength="50" FixedLength="true" Unicode="true" />
+          <Property Name="own_enterprise" Type="String" MaxLength="50" FixedLength="true" Unicode="true" />
+          <Property Name="photo" Type="String" MaxLength="50" FixedLength="true" Unicode="true" />
+          <Property Name="value" Type="String" MaxLength="50" FixedLength="true" Unicode="true" />
+          <Property Name="shares" Type="Double" />
+          <Property Name="share_price" Type="Double" />
+          <Property Name="own_shares" Type="Int32" />
+          <Property Name="city" Type="String" MaxLength="50" FixedLength="true" Unicode="true" />
+          <Property Name="country" Type="String" MaxLength="50" FixedLength="true" Unicode="true" />
+          <Property Name="enterprise_type_id" Type="Int32" />
+          <NavigationProperty Name="enterprise_type" Relationship="Self.FK__Empresas__enterp__4F7CD00D" FromRole="enterprises" ToRole="enterprise_type" />
+          <NavigationProperty Name="portfolio" Relationship="Self.FK__portfolio__enter__5441852A" FromRole="enterprises" ToRole="portfolio" />
+        </EntityType>
+        <EntityType Name="investor">
+          <Key>
+            <PropertyRef Name="id" />
+          </Key>
+          <Property Name="id" Type="Int32" Nullable="false" />
+          <Property Name="investor_name" Type="String" MaxLength="100" FixedLength="true" Unicode="true" />
+          <Property Name="email" Type="String" MaxLength="100" FixedLength="true" Unicode="true" />
+          <Property Name="city" Type="String" MaxLength="100" FixedLength="true" Unicode="true" />
+          <Property Name="country" Type="String" MaxLength="100" FixedLength="true" Unicode="true" />
+          <Property Name="balance" Type="String" MaxLength="100" FixedLength="true" Unicode="true" />
+          <Property Name="photo" Type="String" MaxLength="100" FixedLength="true" Unicode="true" />
+          <Property Name="portifolio_id" Type="Int32" />
+          <Property Name="portifolio_value" Type="Int32" />
+          <Property Name="first_acess" Type="Byte" />
+          <Property Name="super_angel" Type="Byte" />
+          <NavigationProperty Name="portfolio" Relationship="Self.FK__portfolio__inves__5535A963" FromRole="investor" ToRole="portfolio" />
+        </EntityType>
+        <EntityType Name="portfolio">
+          <Key>
+            <PropertyRef Name="id" />
+          </Key>
+          <Property Name="id" Type="Int32" Nullable="false" />
+          <Property Name="enterprise_id" Type="Int32" />
+          <Property Name="investor_id" Type="Int32" />
+          <NavigationProperty Name="enterprises" Relationship="Self.FK__portfolio__enter__5441852A" FromRole="portfolio" ToRole="enterprises" />
+          <NavigationProperty Name="investor" Relationship="Self.FK__portfolio__inves__5535A963" FromRole="portfolio" ToRole="investor" />
+        </EntityType>
+        <Association Name="FK__Empresas__enterp__4F7CD00D">
+          <End Role="enterprise_type" Type="Self.enterprise_type" Multiplicity="0..1" />
+          <End Role="enterprises" Type="Self.enterprises" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="enterprise_type">
+              <PropertyRef Name="id" />
+            </Principal>
+            <Dependent Role="enterprises">
+              <PropertyRef Name="enterprise_type_id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__portfolio__enter__5441852A">
+          <End Role="enterprises" Type="Self.enterprises" Multiplicity="0..1" />
+          <End Role="portfolio" Type="Self.portfolio" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="enterprises">
+              <PropertyRef Name="id" />
+            </Principal>
+            <Dependent Role="portfolio">
+              <PropertyRef Name="enterprise_id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__portfolio__inves__5535A963">
+          <End Role="investor" Type="Self.investor" Multiplicity="0..1" />
+          <End Role="portfolio" Type="Self.portfolio" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="investor">
+              <PropertyRef Name="id" />
+            </Principal>
+            <Dependent Role="portfolio">
+              <PropertyRef Name="investor_id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityContainer Name="App_EnterprisesEntities" annotation:LazyLoadingEnabled="false">
+          <EntitySet Name="enterprise_type" EntityType="Self.enterprise_type" />
+          <EntitySet Name="enterprises" EntityType="Self.enterprises" />
+          <EntitySet Name="investor" EntityType="Self.investor" />
+          <EntitySet Name="portfolio" EntityType="Self.portfolio" />
+          <AssociationSet Name="FK__Empresas__enterp__4F7CD00D" Association="Self.FK__Empresas__enterp__4F7CD00D">
+            <End Role="enterprise_type" EntitySet="enterprise_type" />
+            <End Role="enterprises" EntitySet="enterprises" />
+          </AssociationSet>
+          <AssociationSet Name="FK__portfolio__enter__5441852A" Association="Self.FK__portfolio__enter__5441852A">
+            <End Role="enterprises" EntitySet="enterprises" />
+            <End Role="portfolio" EntitySet="portfolio" />
+          </AssociationSet>
+          <AssociationSet Name="FK__portfolio__inves__5535A963" Association="Self.FK__portfolio__inves__5535A963">
+            <End Role="investor" EntitySet="investor" />
+            <End Role="portfolio" EntitySet="portfolio" />
+          </AssociationSet>
+        </EntityContainer>
+      </Schema>
+    </edmx:ConceptualModels>
+    <!-- C-S mapping content -->
+    <edmx:Mappings>
+      <Mapping Space="C-S" xmlns="http://schemas.microsoft.com/ado/2009/11/mapping/cs">
+        <EntityContainerMapping StorageEntityContainer="App_EnterprisesModelStoreContainer" CdmEntityContainer="App_EnterprisesEntities">
+          <EntitySetMapping Name="enterprise_type">
+            <EntityTypeMapping TypeName="App_EnterprisesModel.enterprise_type">
+              <MappingFragment StoreEntitySet="enterprise_type">
+                <ScalarProperty Name="id" ColumnName="id" />
+                <ScalarProperty Name="enterprise_type_name" ColumnName="enterprise_type_name" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="enterprises">
+            <EntityTypeMapping TypeName="App_EnterprisesModel.enterprises">
+              <MappingFragment StoreEntitySet="enterprises">
+                <ScalarProperty Name="id" ColumnName="id" />
+                <ScalarProperty Name="enterprise_name" ColumnName="enterprise_name" />
+                <ScalarProperty Name="description" ColumnName="description" />
+                <ScalarProperty Name="email_enterprise" ColumnName="email_enterprise" />
+                <ScalarProperty Name="facebook" ColumnName="facebook" />
+                <ScalarProperty Name="twitter" ColumnName="twitter" />
+                <ScalarProperty Name="linkedin" ColumnName="linkedin" />
+                <ScalarProperty Name="phone" ColumnName="phone" />
+                <ScalarProperty Name="own_enterprise" ColumnName="own_enterprise" />
+                <ScalarProperty Name="photo" ColumnName="photo" />
+                <ScalarProperty Name="value" ColumnName="value" />
+                <ScalarProperty Name="shares" ColumnName="shares" />
+                <ScalarProperty Name="share_price" ColumnName="share_price" />
+                <ScalarProperty Name="own_shares" ColumnName="own_shares" />
+                <ScalarProperty Name="city" ColumnName="city" />
+                <ScalarProperty Name="country" ColumnName="country" />
+                <ScalarProperty Name="enterprise_type_id" ColumnName="enterprise_type_id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="investor">
+            <EntityTypeMapping TypeName="App_EnterprisesModel.investor">
+              <MappingFragment StoreEntitySet="investor">
+                <ScalarProperty Name="id" ColumnName="id" />
+                <ScalarProperty Name="investor_name" ColumnName="investor_name" />
+                <ScalarProperty Name="email" ColumnName="email" />
+                <ScalarProperty Name="city" ColumnName="city" />
+                <ScalarProperty Name="country" ColumnName="country" />
+                <ScalarProperty Name="balance" ColumnName="balance" />
+                <ScalarProperty Name="photo" ColumnName="photo" />
+                <ScalarProperty Name="portifolio_id" ColumnName="portifolio_id" />
+                <ScalarProperty Name="portifolio_value" ColumnName="portifolio_value" />
+                <ScalarProperty Name="first_acess" ColumnName="first_acess" />
+                <ScalarProperty Name="super_angel" ColumnName="super_angel" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="portfolio">
+            <EntityTypeMapping TypeName="App_EnterprisesModel.portfolio">
+              <MappingFragment StoreEntitySet="portfolio">
+                <ScalarProperty Name="id" ColumnName="id" />
+                <ScalarProperty Name="enterprise_id" ColumnName="enterprise_id" />
+                <ScalarProperty Name="investor_id" ColumnName="investor_id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+        </EntityContainerMapping>
+      </Mapping>
+    </edmx:Mappings>
+  </edmx:Runtime>
+  <!-- EF Designer content (DO NOT EDIT MANUALLY BELOW HERE) -->
+  <Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
+    <Connection>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="MetadataArtifactProcessing" Value="EmbedInOutputAssembly" />
+      </DesignerInfoPropertySet>
+    </Connection>
+    <Options>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="ValidateOnBuild" Value="true" />
+        <DesignerProperty Name="EnablePluralization" Value="false" />
+        <DesignerProperty Name="IncludeForeignKeysInModel" Value="true" />
+        <DesignerProperty Name="UseLegacyProvider" Value="false" />
+        <DesignerProperty Name="CodeGenerationStrategy" Value="None" />
+      </DesignerInfoPropertySet>
+    </Options>
+    <!-- Diagram content (shape and connector positions) -->
+    <Diagrams></Diagrams>
+  </Designer>
+</edmx:Edmx>
